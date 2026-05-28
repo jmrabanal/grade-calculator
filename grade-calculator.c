@@ -1,37 +1,53 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+//checks to see if the user is trying to send a stupid character instead of a number lol
+float get_valid_float(const char* prompt) {
+    char buffer[50];
+    char *endptr;
+    float value;
+    while (true) {
+        printf("%s", prompt);
+        if (fgets(buffer, sizeof(buffer), stdin)) {
+            value = strtof(buffer, &endptr);
+            // Check if input was empty or not a number
+            if (endptr != buffer && *endptr == '\n') {
+                return value;
+            }
+        }
+        printf("That's not a number, genius. Try again.\n");
+    }
+}
 
 int main(){
 
-    char subject[30] = "";
-    float w_score, w_total, p_score, p_total, e_score, e_total;
-    float worth1, worth2, worth3, average ;
+    char subject[30];
 
     printf("What subject are you calculating your grade for?: ");
     fgets(subject, sizeof(subject), stdin);
 
-    printf("How much percentage is the written work for the subject?\n (ex. 25%% = 0.25): ");
-    scanf("%f", &worth1);
+    //lets the user input the percentages the different subcategories are worth for different subjects
+    float worth1 = get_valid_float("Written work percentage\n (ex. 25% = 0.25): ");
+    float worth2 = get_valid_float("Performance task percentage (ex. 50% = 0.50): ");
+    float worth3 = get_valid_float("Exam percentage (ex. 25% = 0.25): ");
 
-    printf("How much percentage is the performance task for the subject?\n (ex. 25%% = 0.25): ");
-    scanf("%f", &worth2);
+    //the different subcategories for getting grade
+    float w_score = get_valid_float("Written Score: ");
+    float w_total = get_valid_float("Written Total: ");
 
-    printf("How much percentage is the exam for the subject?\n (ex. 25%% = 0.25): ");
-    scanf("%f", &worth3);
+    float p_score = get_valid_float("Performance Task Score: ");
+    float p_total = get_valid_float("Performance Task Total: ");
 
-    printf("Written: Enter [Your Score] [Total Possible]: ");
-    scanf("%f %f", &w_score, &w_total);
-    
-    printf("Performance: Enter [Your Score] [Total Possible]: ");
-    scanf("%f %f", &p_score, &p_total);
-    
-    printf("Exam: Enter [Your Score] [Total Possible]: ");
-    scanf("%f %f", &e_score, &e_total);
+    float e_score = get_valid_float("Exam Score: ");
+    float e_total = get_valid_float("Exam Total: ");
 
-    average = ((w_score / w_total) * 100 * worth1) + 
+    //calculating the average
+    float average = ((w_score / w_total) * 100 * worth1) + 
               ((p_score / p_total) * 100 * worth2) + 
               ((e_score / e_total) * 100 * worth3);
-    printf("\nYour Average for %s is: %.2f\n", subject, average);
+    printf("\nYour Average for %s is: %.2f%\n", subject, average);
 
     if (average >= 90) {
         printf("Your Grade is enough to be a DEAN LISTER, Congrats!\n");
