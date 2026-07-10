@@ -3,7 +3,7 @@
 
 int main(){
 
-    printf("---GRADE CALCULATOR---");
+    printf("---GRADE CALCULATOR---\n");
 
     char subject[40];
     printf("What subject are you calculating your grade?: ");
@@ -18,13 +18,31 @@ int main(){
      float class_standing, exam, activities, quizzes, final_grade;
 
     if(type == 1){
-        printf("");
+        printf("\n--- Laboratory Grading ---\n");
+        printf("Enter Activities score (0-100): ");
+        scanf("%f", &activities);
+        printf("Enter Exam score (0-100): ");
+        scanf("%f", &exam);
+
+        final_grade = (activities * 0.60) + (exam * 0.40);
+        printf("\nFinal Grade for %s (Lab): %.2f\n", subject, final_grade);
+    }
+    else if(type == 2){
+        printf("\n--- Lecture Grading ---\n");
+        printf("Enter Quizzes score (0-100): ");
+        scanf("%f", &quizzes);
+        printf("Enter Class Standing (0-100): ");
+        scanf("%f", &class_standing);
+        printf("Enter Exam score (0-100): ");
+        scanf("%f", &exam);
+        
+        final_grade = (quizzes * 0.30) + (class_standing * 0.30) + (exam * 0.40);
+        printf("\nFinal Grade for %s (Lecture): %.2f\n", subject, final_grade);
     }
     else{
-        printf("");
+        printf("Error, please only input 1 or 2.\n");
     }
 
-    printf("Your GWA for %s is: %0.2f", subject, class_standing);
 
     return 0;
 }
